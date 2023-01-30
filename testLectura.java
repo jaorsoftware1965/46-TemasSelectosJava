@@ -53,44 +53,44 @@ public class testLectura
    // Función main que es obligatorio
    public static void main(String args[])
    {
-      // Variable para control de la salida
-		boolean salir = false;
+        // Variable para control de la salida
+	    boolean salir = false;
 
-      // Para lectura de los datos
-      String lectura;
+        // Para lectura de los datos
+        String lectura;
 
-      // Para la opcion
-      int opcion;
+        // Para la opcion
+        int opcion;
 
-      // Lee la Agenda
-		leerAgenda();
+        // Lee la Agenda
+	    leerAgenda();
        
-		// Crea el objeto teclado para lectura de datos
-		teclado = new Scanner(System.in);
+	    // Crea el objeto teclado para lectura de datos
+	    teclado = new Scanner(System.in);
         
-      while(!salir)
+        while(!salir)
 		{   
 		   System.out.println("----------------------");	         
 		   System.out.println("Menu Agenda           ");
 		   System.out.println("----------------------");
-         System.out.println("1. Agregar    Contacto");
-         System.out.println("2. Buscar     Contacto");
-         System.out.println("3. Imprimir   Contactos");
+           System.out.println("1. Agregar    Contacto");
+           System.out.println("2. Buscar     Contacto");
+           System.out.println("3. Imprimir   Contactos");
 		   System.out.println("4. Eliminar   Contacto ");
 		   System.out.println("5. Actualizar Contactos");
-         System.out.println("6. Salir");
+           System.out.println("6. Salir");
       
-         // Solicitud de Captura
-         System.out.println("Seleccione:");
-         lectura = teclado.nextLine();           
+           // Solicitud de Captura
+           System.out.print("Seleccione:");
+           lectura = teclado.nextLine();           
 
-         try 
-         {
+           try 
+           {
               // Verifica si puede convertir a integer
               opcion = Integer.parseInt(lectura); 
-         } 
-         catch (Exception e) 
-         {
+           } 
+           catch (Exception e) 
+           {
               // Convierte a Mayusculas
               lectura = lectura.toUpperCase();
 
@@ -114,60 +114,68 @@ public class testLectura
                  opcion = OPC_SALIR;
               else
                  opcion = 0;
-         }      
+           }      
          
-         switch(opcion)
+           switch(opcion)
 		   {
-            case OPC_AGREGAR:
-                  // Agregar Contacto
-                  agregarContacto();
-                  break;
-            case 2:
-                  // Buscar Contacto
-                  buscarContacto();
-                  break;
-            case 3:
-                  // Imprimir Contactos
-                  imprimirContactos();
-                  break;
-				case 4:
-                  // Eliminar contacto
-                  eliminarContacto();
-                  break;   
-				case 5:
-                  // Actualiza Contacto
-                  actualizarContacto();
-                  break;   
-            case 6:
-                  // Salida del Programa
-                  salir=true;
-                  break;
-            default:
-                  // Mensaje de Error 
-                  System.out.println("Opcion incorrecta");
-         } 
+				case OPC_AGREGAR:
+					// Agregar Contacto
+					agregarContacto();
+					break;
+				
+				case OPC_BUSCAR:
+					// Buscar Contacto
+					buscarContacto();
+					break;
+				
+				case OPC_IMPRIMIR:
+					// Imprimir Contactos
+					imprimirContactos();
+					break;
+				
+				case OPC_ELIMINAR:
+					// Eliminar contacto
+					eliminarContacto();
+					break;   
+				
+				case OPC_ACTUALIZAR:
+                    // Actualiza Contacto
+                    actualizarContacto();
+                    break;   
 
-         // Verifica si va de salida
-         if (!salir)
-         {
-            // Pausar
-            pausar();
+                case OPC_SALIR:
+                    // Salida del Programa
+                    salir=true;
+                    break;
 
-            // Limpiar pantalla
-            limpiarPantalla();
-         }         
-      }
+                default:
+                    // Mensaje de Error 
+                    System.out.println("Opcion incorrecta");
+            } 
 
-      // Cierra el Teclado
-      teclado.close();
+            // Verifica si va de salida
+            if (!salir)
+            {
+               // Pausar
+               pausar();
 
-		// Mensaje Final
-		System.out.println("Programa Finalizado ...");					      
-   }  
+               // Limpiar pantalla
+               limpiarPantalla();
+            }         
+        }
 
-   // buscar Contacto
+        // Cierra el Teclado
+        teclado.close();
+
+	    // Mensaje Final
+	    System.out.println("Programa Finalizado ...");					      
+    }  
+
+    // -------------------------
+    // buscar Contacto
+	// -------------------------
 	static void buscarContacto() 
-   {
+    {
 		// El registro a buscar
 		int registroBuscar;
 
@@ -175,12 +183,13 @@ public class testLectura
 		registroBuscar = teclado.nextInt();
 
 		// Valida el registro
-		if (registroBuscar < 1 || registroBuscar > registros) {
+		if (registroBuscar < 1 || registroBuscar > registros) 
+		{
 			// Error
 			System.out.println("El Registro que has indicado está fuera de rango");
 		} 
-      else 
-      {
+        else 
+        {
 			// Despliega los datos del registro
 			System.out.println("Registro encontrado:");
 		
@@ -194,9 +203,11 @@ public class testLectura
 		}
 	}
    
-   // Agregar Contacto
+	// --------------------------
+    // Agregar Contacto
+	// --------------------------
 	static void agregarContacto() 
-   {
+    {
 		// Variables para los datos
 		String nombre, apellido, telCasa, telMovil, fecNac;
 
@@ -234,9 +245,11 @@ public class testLectura
 
 	}
 
-   // Imprimir Contactos
+	// ----------------------------
+    // Imprimir Contactos
+	// ----------------------------
 	static void imprimirContactos() 
-   {
+    {
 		// Indica el Registro a Insertar
 		System.out.println("Lista de Contactos ...: " + registros);
 
@@ -263,9 +276,11 @@ public class testLectura
 
 	}
 
-   // Actualizar Contacto
+	// -----------------------------
+    // Actualizar Contacto
+	// -----------------------------
 	static void actualizarContacto() 
-   {
+    {
 		// registro Actualizar
 		int registroActualizar;
 
@@ -308,9 +323,11 @@ public class testLectura
 		}
 	}
 
-   // Eliminar Contacto
+	// ---------------------------
+    // Eliminar Contacto
+	// ---------------------------
 	static void eliminarContacto() 
-   {
+    {
 		// El registro a eliminar
 		int registroEliminar;
 
@@ -324,7 +341,7 @@ public class testLectura
 			System.out.println("El Registro que has indicado está fuera de rango");
 		} 
         else 
-       {
+        {
 			// Verifica que no esté eliminado
 			if (matrizAgenda[registroEliminar-1][COL_FEC_NAC].equals(MARCA_BORRADO)) 
             {
@@ -361,7 +378,8 @@ public class testLectura
 		// Crea el archivo
 		File file = new File(NOM_ARCHIVO);
 
-		try {
+		try 
+		{
 			// Si el archivo no existe es creado
 			if (!file.exists()) {
 				// Crea el Archivo
@@ -373,7 +391,9 @@ public class testLectura
 				// Mensaje
 				System.out.println("La Agenda ya existe ...");
 
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -406,14 +426,9 @@ public class testLectura
 			// Asociamos el objeto File al objeto de Lectura del Archivo
 			xLector = new BufferedReader(xFile);
 
-			// Inciamos Lectura por Linea
-			System.out.println("Lectura por Linea...");
-
 			// Ciclo para leer del Archivo
-			while ((linea = xLector.readLine()) != null) {
-				// Despliega el Registro leido
-				System.out.println(linea);
-
+			while ((linea = xLector.readLine()) != null) 
+			{
 				// Obtiene los elementos separados por ","
 				String[] datos = linea.split(",");
 
@@ -431,20 +446,21 @@ public class testLectura
 			}
 
 			// Despliega el Numero de Registros en la Agenda
-			System.out.println("Registros en la Agenda:" + registros);
+			System.out.println("Registros en la Agenda:" + registros+"\n");
 
 			// Cierra el Buffer y el Archivo
 			xLector.close();
 			xFile.close();
-		} catch (java.io.FileNotFoundException fnfex) {
+
+		} 
+		catch (java.io.FileNotFoundException fnfex) 
+		{
 			System.out.println("Archivo no encontrado: " + fnfex);
-		} catch (java.io.IOException ioex) {
+		} 
+		catch (java.io.IOException ioex) 
+		{
 			System.out.println("Error en Archivo: " + ioex.getMessage());
-		}
-
-		// Mensaje Final
-		System.out.println("Fin de Lectura ...");
-
+		}		
 	}
 
 	// -------------------
