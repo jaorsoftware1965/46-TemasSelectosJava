@@ -46,19 +46,14 @@
 // actualizar dicho contacto
 // Siempre se consulten los datos en el archivo de texto se tendrán que guardar 
 // directamente en una matriz para realizar cambios o ajustes.
-// 
-// 
-		
-// En esta clase veremos como poder realizar una Lectura de 
-// un Archivo de Texto.
+
 	
 // Librerías
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner6;
+import java.util.Scanner;
 
 // Clase se debe llamar igual que el archivo
 public class programa
@@ -73,7 +68,7 @@ public class programa
 	static final int COL_TEL_CASA   = 3; // Columna del Telefono de Casa
 	static final int COL_TEL_MOVIL  = 4; // Columna del Telefono Movil
 	static final int COL_FEC_NAC    = 5; // Columna de  Fecha Nacimiento
-	static final int COL_CTRL_DEL   = 6; // Columna para el Control de Borrado
+	static final int COL_STATUS     = 6; // Columna para el Control de Borrado
 	
 	// Nombre del Archivo
 	static final String NOM_ARCHIVO = "Agenda_2023.txt"; // Nombre del Archivo
@@ -86,8 +81,8 @@ public class programa
 	static final int OPC_ACTUALIZAR = 5; 
 	static final int OPC_SALIR      = 6; 
 
-	static final String MARCA_ACTIVO  = " ";
-	static final String MARCA_BORRADO = "*";	
+	static final String MARCA_ACTIVO  = "Activo";
+	static final String MARCA_BORRADO = "Borrado";	
 
 	// Propiedades de la Clase
 
@@ -101,169 +96,61 @@ public class programa
     // Función main que es obligatorio
     public static void main(String args[])
     {
+		boolean salir = false;
+        int opcion; //Guardaremos la opcion del usuario
+       
         // Despliega
         System.out.println("Programa de Agenda de Contactos");
-
-		// Opcion
-		int opcionSeleccionada=0;
 		
 		// Lee la Agenda
 		leerAgenda();
-
-		// Ciclo para el menu
-		while (opcionSeleccionada!=6)
-		{
-			// Llamando al Menu Principal
-			opcionSeleccionada = menu();
-
-			// Verifica que Método ejecutar
-			switch (opcionSeleccionada) 
-			{
-				case OPC_AGREGAR:	
-					System.out.println("Agregar\n");			
-					break;
-
-				case OPC_BUSCAR:				
-					System.out.println("Buscar\n");			
-					break;	 
-
-				case OPC_ACTUALIZAR:				
-					System.out.println("Actualizar\n");			
-					break;	 
-
-				case OPC_ELIMINAR:				
-					System.out.println("Eliminar\n");			
-					break;	 
-
-				case OPC_IMPRIMIR:				
-					System.out.println("Imprimir\n");			
-					break;	 
-				
-				case OPC_SALIR:				
-					System.out.println("Salir\n");			
-					break;	 
-			
-				default:
-					System.out.println("opcion desconocida ...\n");			
-					break;
-			}
-
-		}
-	
-		// Deja un Linea
-		System.out.println("Programa Finalizado ...\n");
-					          
-    }  
-	
-	// Método para Desplegar el Menu y obtener la opción seleccionada
-	static int menu()
-	{
-		// resultado
-		int opcion = 0;
-
-		// Creamos un objeto de la Clase
-        Scanner oEntrada = new Scanner(System.in);
-
-		// Lectura de la opcion
-		String captura;
 		
-		// Ciclo para leer la opción correcta
-		while (true)
-		{
-			// Despliega el Menu
-			System.out.println("-----------------");
-			System.out.println("Menu de la Agenda");
-			System.out.println("-----------------");
-			System.out.println("1. Agregar    Contacto");
-			System.out.println("2. Buscar     Contacto");
-			System.out.println("3. Imprimir   Contactos");
-			System.out.println("4. Eliminar   Contacto");
-			System.out.println("5. Actualizar Contacto");
-			System.out.println("6. Salir");
+		// Crea el objeto teclado para lectura de datos
+		Scanner teclado = new Scanner(System.in);
+        
+        while(!salir)
+		{   
+		   System.out.println("----------------------");	         
+		   System.out.println("Menu Agenda           ");
+		   System.out.println("----------------------");
+           System.out.println("1. Agregar    Contacto");
+           System.out.println("2. Buscar     Contacto");
+           System.out.println("3. Imprimir   Contactos");
+		   System.out.println("4. Eliminar   Contacto ");
+		   System.out.println("5. Actualizar Contactos");
+           System.out.println("6. Salir");
+            
+           System.out.println("Escribe una de las opciones");
+           opcion = teclado.nextInt();
+            
+           switch(opcion)
+		   {
+               case OPC_AGREGAR:
+                   agregarContacto();
+                   break;
+               case OPC_BUSCAR:
+                   buscarContacto();
+                   break;
+                case OPC_IMPRIMIR:
+				   imprimirContactos();
+                   break;
+				case OPC_ELIMINAR:
+				   eliminarContacto();
+                   break;   
+				case OPC_ACTUALIZAR:
+				   actualizarContacto();
+                   break;   
+                case OPC_SALIR:
+                   salir=true;
+                   break;
+                default:
+                   System.out.println("Solo números entre 1 y 4");
+           }     
+        }
 
-			// Mensaje
-			System.out.println("Capture Numero o Palabra:");
-
-			// Captura del Usuario
-			captura = oEntrada.nextLine(); 
-
-			// Convierte a Mayusculas
-			captura = captura.toUpperCase();
- 
-			// Si el nombre es vacío termina la captura
-			if (captura.length()==0)
-			{
-				// Mensaje de Error
-				System.out.println("Error. No deje vacia la captura.");
-			}
-			else
-				// Verificamos que haya capturado mas de 1 caracter
-				if (captura.length()>1)
-				{
-					// Comparamos que sea una palabra correcta
-					if (captura == "AGREGAR")
-					{
-						// Asigna agregar
-						opcion = OPC_AGREGAR;
-					}
-					else
-					if (captura == "BUSCAR") 
-					{
-						// Asigna agregar
-						opcion = OPC_BUSCAR;
-					}
-					else
-					if (captura == "IMPRIMIR") 
-					{
-						// Asigna agregar
-						opcion = OPC_IMPRIMIR;
-					}
-					else
-					if (captura == "ELIMINAR") // Verifica si es agregar
-					{
-						// Asigna agregar
-						opcion = OPC_ELIMINAR;
-					}
-					else
-					if (captura == "ACTUALIZAR") // Verifica si es agregar
-					{
-						// Asigna agregar
-						opcion = OPC_AGREGAR;
-					}
-					else
-					if (captura == "SALIR") // Verifica si es agregar
-					{
-						// Asigna agregar
-						opcion = OPC_AGREGAR;
-					}
-					else 
-					{
-						// Mensaje de Error
-						System.out.println("Error en opción.");
-					}
-				}
-				else
-				{
-					// Convertimos a numero
-					opcion = Integer.parseInt(captura);
-
-					// Verificamos si desborda
-					if (opcion >= OPC_AGREGAR && opcion <= OPC_SALIR)
-					   // Es correcta y salimos
-					   break;
-				}	
-			
-			// Limpia el Buffer
-			oEntrada.nextLine();									   
-		}
-
-		 // Cerramos el Objeto
-		 oEntrada.close();
-
-		// Devuelve la opción seleccionada
-		return opcion;
-
-	}
+		// Mensaje Final
+		System.out.println("Programa Finalizado ...");					      
+    }  	
 
 	// Método para cargar los datos del Archivo
 	static void leerAgenda()
@@ -306,11 +193,12 @@ public class programa
 
 				// Coloca los datos en la matriz
 				matrizAgenda[registros][COL_ID]        = datos[COL_ID];
-				matrizAgenda[registros][COL_NOM]       = datos[COL_ID];
-				matrizAgenda[registros][COL_APE]       = datos[COL_ID];
-				matrizAgenda[registros][COL_TEL_CASA]  = datos[COL_ID];
-				matrizAgenda[registros][COL_TEL_MOVIL] = datos[COL_ID];								
-				matrizAgenda[registros][COL_CTRL_DEL]  = MARCA_ACTIVO;
+				matrizAgenda[registros][COL_NOM]       = datos[COL_NOM];
+				matrizAgenda[registros][COL_APE]       = datos[COL_APE];
+				matrizAgenda[registros][COL_TEL_CASA]  = datos[COL_TEL_CASA];
+				matrizAgenda[registros][COL_TEL_MOVIL] = datos[COL_TEL_MOVIL];
+				matrizAgenda[registros][COL_TEL_MOVIL] = datos[COL_FEC_NAC];
+				matrizAgenda[registros][COL_STATUS]  = MARCA_ACTIVO;
 
 				// Incrementa el contador de Registros
 				registros++;
@@ -333,7 +221,212 @@ public class programa
 		}
 
 		// Mensaje Final
-        System.out.println("Fin de Lectura ...");       
+        System.out.println("Fin de Lectura ...");  
+
+	}
+
+	// Imprimir Contactos
+	static void imprimirContactos()
+	{		
+		// Indica el Registro a Insertar
+		System.out.println("Lista de Contactos ...: " + registros);			
+
+		// Indice
+		int indice;
+
+		// Ciclo para desplegar
+		for (indice = 0; indice < registros; indice++)
+		{
+			// Agrega los datos a la Matriz
+			System.out.println("Registro  :["+(indice+1)+"]");
+			System.out.println("Id        :"+matrizAgenda[indice][COL_ID]);
+			System.out.println("Nombre    :"+matrizAgenda[indice][COL_NOM]);
+			System.out.println("Apellido  :"+matrizAgenda[indice][COL_APE]);
+			System.out.println("Tel Casa  :"+matrizAgenda[indice][COL_TEL_CASA]);
+			System.out.println("Tel Movil :"+matrizAgenda[indice][COL_TEL_MOVIL]);
+			System.out.println("Fec Nac   :"+matrizAgenda[indice][COL_FEC_NAC]);
+			System.out.println("Status    :"+matrizAgenda[indice][COL_STATUS]);
+			System.out.println("");
+		}
+
+		// Mensaje
+		System.out.println("Se han impreso todos los registros ...");
+
+	}
+
+	// Agregar Contacto
+	static void agregarContacto()
+	{
+		// Variables para los datos
+	    String nombre, apellido, telCasa, telMovil, fecNac;
+
+		// Crea el buffer del Teclado
+		Scanner teclado = new Scanner(System.in);
+
+		// Indica el Registro a Insertar
+		System.out.println("El Id del registro a grabar es: " + (registros+1));			
+
+		// Solicita los datos
+		System.out.println("Captura el Nombre, Apellido, teléfono de casa, teléfono móvil y fecha de nacimiento"); 
+		System.out.println("Dando <Enter> despues de cada dato");
+
+		// Lee los datos
+		nombre   = teclado.nextLine();
+		apellido = teclado.nextLine();
+		telCasa  = teclado.nextLine();
+		telMovil = teclado.nextLine();
+		fecNac   = teclado.nextLine();
+		
+		// Agrega los datos a la Matriz
+		matrizAgenda[registros][COL_ID]        = String.valueOf(registros);
+		matrizAgenda[registros][COL_NOM]       = nombre;
+		matrizAgenda[registros][COL_APE]       = apellido;
+		matrizAgenda[registros][COL_TEL_CASA]  = telCasa;
+		matrizAgenda[registros][COL_TEL_MOVIL] = telMovil;
+		matrizAgenda[registros][COL_FEC_NAC]   = fecNac;
+		matrizAgenda[registros][COL_STATUS]    = MARCA_ACTIVO;
+
+		// Mensaje
+		System.out.println("El Registro ha sido agregado ...");
+
+		// Incrementa el registro
+		registros++;
+
+	}
+
+	// Actualizar Contacto
+	static void actualizarContacto()
+	{
+		// registro Actualizar
+		int registroActualizar;
+
+		// Variables para los datos
+	    String nombre, apellido, telCasa, telMovil, fecNac;
+
+		// Crea el buffer del Teclado
+		Scanner teclado = new Scanner(System.in);
+
+
+		System.out.println("Indica el registro a actualizar (1-"+registros+"):");
+        registroActualizar = teclado.nextInt();
+
+		// Valida el registro
+		if (registroActualizar<1 || registroActualizar>registros)
+		{
+			// Error
+		    System.out.println("El Registro que has indicado está fuera de rango");
+		}
+		else
+		{
+			// Solicita los datos
+			System.out.println("Captura el Nombre, Apellido, teléfono de casa, teléfono móvil y fecha de nacimiento"); 
+			System.out.println("Dando <Enter> despues de cada dato");
+
+			// Lee los datos
+			nombre   = teclado.nextLine();
+			apellido = teclado.nextLine();
+			telCasa  = teclado.nextLine();
+			telMovil = teclado.nextLine();
+			fecNac   = teclado.nextLine();
+			
+			// Agrega los datos a la Matriz
+			matrizAgenda[registroActualizar-1][COL_NOM]       = nombre;
+			matrizAgenda[registroActualizar-1][COL_APE]       = apellido;
+			matrizAgenda[registroActualizar-1][COL_TEL_CASA]  = telCasa;
+			matrizAgenda[registroActualizar-1][COL_TEL_MOVIL] = telMovil;
+			matrizAgenda[registroActualizar-1][COL_FEC_NAC]   = fecNac;
+
+			// Mensaje
+			System.out.println("El Registro ha sido actualizado ...");
+		}		
+	}
+
+	// buscar Contacto
+	static void buscarContacto()
+	{
+		// El registro a buscar
+		int registroBuscar;
+		
+		// Crea el buffer del Teclado
+		Scanner teclado = new Scanner(System.in);
+
+		System.out.println("Indica el registro a buscar (1-"+registros+"):");
+        registroBuscar = teclado.nextInt();
+
+		// Valida el registro
+		if (registroBuscar<1 || registroBuscar>registros)
+		{
+			// Error
+		    System.out.println("El Registro que has indicado está fuera de rango");
+		}
+		else
+		{
+			// Despliega los datos del registro
+			System.out.println("Registro encontrado:");
+
+			System.out.println("Id        :"+matrizAgenda[registroBuscar][COL_ID]);
+			System.out.println("Nombre    :"+matrizAgenda[registroBuscar][COL_NOM]);
+			System.out.println("Apellido  :"+matrizAgenda[registroBuscar][COL_APE]);
+			System.out.println("Tel Casa  :"+matrizAgenda[registroBuscar][COL_TEL_CASA]);
+			System.out.println("Tel Movil :"+matrizAgenda[registroBuscar][COL_TEL_MOVIL]);
+			System.out.println("Fec Nac   :"+matrizAgenda[registroBuscar][COL_FEC_NAC]);
+			System.out.println("Fec Nac   :"+matrizAgenda[registroBuscar][COL_FEC_NAC]);			
+		}
+
+		// Cierro el Teclado
+		teclado.close();
+
+	}
+
+	
+
+	// Eliminar Contacto
+	static void eliminarContacto()
+	{
+		// El registro a eliminar
+		int registroEliminar;
+		
+		// Crea el buffer del Teclado
+		Scanner teclado = new Scanner(System.in);
+
+		System.out.println("Indica el registro a eliminar (1-"+registros+"):");
+        registroEliminar = teclado.nextInt();
+
+		// Valida el registro
+		if (registroEliminar<0 || registroEliminar>registros)
+		{
+			// Error
+		    System.out.println("El Registro que has indicado está fuera de rango");
+		}
+		else
+		{
+			// Verifica que no esté eliminado
+			if (matrizAgenda[registroEliminar][COL_FEC_NAC].equals(MARCA_BORRADO))
+			{
+				// Mensaje
+				System.out.print("El Registro ya se encuentra borrado");
+			}
+			else
+			{			
+				// Despliega los datos del registro
+				System.out.println("Registro a eliminar:");
+
+				System.out.println("Id        :"+matrizAgenda[registroEliminar][COL_ID]);
+				System.out.println("Nombre    :"+matrizAgenda[registroEliminar][COL_NOM]);
+				System.out.println("Apellido  :"+matrizAgenda[registroEliminar][COL_APE]);
+				System.out.println("Tel Casa  :"+matrizAgenda[registroEliminar][COL_TEL_CASA]);
+				System.out.println("Tel Movil :"+matrizAgenda[registroEliminar][COL_TEL_MOVIL]);
+				System.out.println("Fec Nac   :"+matrizAgenda[registroEliminar][COL_FEC_NAC]);
+
+				// Le coloca la marca de Borrado
+				matrizAgenda[registroEliminar][COL_STATUS]=MARCA_BORRADO;
+			}
+		}
+
+		
+		// Mensaje
+		System.out.println("El Registro ha sido eliminado ...");
+
 	}
 
 	// ----------------------------
@@ -363,6 +456,29 @@ public class programa
 		catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+	static void pausar()
+	{
+		// String para la pausa
+		String seguir;
+
+		// Teclado
+		Scanner teclado = new Scanner(System.in);
+	
+		// Mensaje
+		System.out.println("Presiona Enter para continue...");
+	
+		// Captura el error
+		try
+		{	
+			// Lee
+			seguir = teclado.nextLine();
+		}
+	
+		catch(Exception e)
+		{
+			// Deja vacia la excepcion
 		}
 	}
 }
