@@ -5,6 +5,7 @@
 // Librerías
 import java.util.Scanner;
 
+
 // Clase se debe llamar igual que el archivo
 public class testLectura
 {   
@@ -36,10 +37,8 @@ public class testLectura
          System.out.println("6. Salir");
       
          // Solicitud de Captura
-         System.out.println("Escribe una de las opciones");
-         lectura = teclado.nextLine();
-           
-         System.out.println("Capturado:"+lectura);
+         System.out.println("Seleccione:");
+         lectura = teclado.nextLine();           
 
          try 
          {
@@ -80,6 +79,8 @@ public class testLectura
                   break;
             case 2:
                   System.out.println("Opcion 2");
+                  System.out.println("Captura un numero:");
+                  int x = teclado.nextInt();
                   break;
             case 3:
                   System.out.println("Opcion 3");
@@ -96,6 +97,16 @@ public class testLectura
                 default:
                   System.out.println("Opcion incorrecta");
          } 
+
+         // Verifica si va de salida
+         if (!salir)
+         {
+            // Pausar
+            pausar();
+
+            // Limpiar pantalla
+            limpiarPantalla();
+         }         
       }
 
       // Cierra el Teclado
@@ -104,4 +115,36 @@ public class testLectura
 		// Mensaje Final
 		System.out.println("Programa Finalizado ...");					      
     }  	
+
+   static void pausar()
+	{
+		// String para la pausa
+		String seguir;
+
+		// Teclado
+		Scanner teclado = new Scanner(System.in);
+	
+		// Mensaje
+		System.out.println("Presiona Enter para continue...");
+	
+		// Captura el error
+		try
+		{	
+			// Lee
+			seguir = teclado.nextLine();
+		}
+	
+		catch(Exception e)
+		{
+			// Deja vacia la excepcion
+		}
+	}
+
+   static void limpiarPantalla()
+   {
+      // Este comando me parece que solo funciona en Linux;
+      // Habría que actualizarlo para windows.
+      System.out.print("\033[H\033[2J");  
+      System.out.flush();
+   }
 }
